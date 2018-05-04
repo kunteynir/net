@@ -4,9 +4,10 @@
 
 // Package proxy provides support for a variety of protocols to proxy network
 // data.
-package proxy // import "golang.org/x/net/proxy"
+package proxy
 
 import (
+	"context"
 	"errors"
 	"net"
 	"net/url"
@@ -18,6 +19,8 @@ import (
 type Dialer interface {
 	// Dial connects to the given address via the proxy.
 	Dial(network, addr string) (c net.Conn, err error)
+	// Dial connects to the given address via the proxy using the provided context.
+	DialContext(ctx context.Context, network, addr string) (c net.Conn, err error)
 }
 
 // Auth contains authentication parameters that specific Dialers may require.

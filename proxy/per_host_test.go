@@ -5,6 +5,7 @@
 package proxy
 
 import (
+	"context"
 	"errors"
 	"net"
 	"reflect"
@@ -18,6 +19,10 @@ type recordingProxy struct {
 func (r *recordingProxy) Dial(network, addr string) (net.Conn, error) {
 	r.addrs = append(r.addrs, addr)
 	return nil, errors.New("recordingProxy")
+}
+
+func (r *recordingProxy) DialContext(ctx context.Context, network, addr string) (net.Conn, error) {
+	return r.Dial(network, addr)
 }
 
 func TestPerHost(t *testing.T) {
